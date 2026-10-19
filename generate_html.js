@@ -403,13 +403,6 @@ const htmlContent = `<!DOCTYPE html>
       text-shadow: 0 1px 1px rgba(0,0,0,0.06);
     }
 
-    .arabic-divider {
-      color: var(--gold-primary);
-      font-size: 16px;
-      letter-spacing: 6px;
-      margin: 2px 0 8px;
-      opacity: 0.85;
-    }
 
     /* Clean Pronunciation Pill */
     .pronunciation-pill {
@@ -842,8 +835,6 @@ const htmlContent = `<!DOCTYPE html>
         <div class="arabic-wrapper">
           <div class="arabic-text" id="cardArabic">اَللّٰهُمَّ</div>
         </div>
-
-        <div class="arabic-divider">❖ ۞ ❖</div>
 
         <!-- Clean Pronunciation Pill -->
         <div class="pronunciation-pill" id="cardPronunciation"></div>
