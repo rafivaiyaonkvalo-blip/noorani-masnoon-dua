@@ -21,27 +21,26 @@ const htmlContent = `<!DOCTYPE html>
 
   <style>
     :root {
-      /* Official Markazul Iman Signature Brand Palette */
+      /* Official Markazul Iman Signature Palette */
       --primary: #04432c;
       --primary-dark: #02291b;
-      --primary-deep: #011a11;
+      --primary-deep: #011910;
       --primary-light: #065f3e;
-      --primary-surface: #0a4f35;
+      --primary-accent: #10b981;
       
-      --accent-gold: #c69214;
-      --accent-gold-light: #f59e0b;
-      --accent-gold-bright: #ffd700;
+      --gold-primary: #d4af37;
+      --gold-light: #fef08a;
+      --gold-deep: #b8860b;
       --gold-gradient: linear-gradient(135deg, #d4af37 0%, #fef08a 50%, #b8860b 100%);
-      --gold-border: #d4af37;
       
-      --bg-cream: #fdfbf7;
-      --bg-card: #ffffff;
-      --text-dark: #111827;
-      --text-muted: #374151;
-      --text-light-green: #a7f3d0;
+      --bg-stage: #021a11;
+      --card-bg: #ffffff;
+      --text-main: #111827;
+      --text-muted: #4b5563;
+      --border-soft: rgba(212, 175, 55, 0.35);
       
       --arabic-font: 'Scheherazade New', serif;
-      --arabic-size: 38px;
+      --arabic-size: 40px;
     }
 
     * {
@@ -52,11 +51,10 @@ const htmlContent = `<!DOCTYPE html>
 
     body {
       font-family: 'Hind Siliguri', sans-serif;
-      background-color: var(--primary-deep);
+      background-color: var(--bg-stage);
       background-image: 
-        radial-gradient(circle at 50% 25%, #053b26 0%, #01140c 100%),
-        repeating-linear-gradient(45deg, rgba(212, 175, 55, 0.02) 0px, rgba(212, 175, 55, 0.02) 2px, transparent 2px, transparent 18px);
-      color: var(--text-dark);
+        radial-gradient(circle at 50% 15%, #053b26 0%, #01140c 100%);
+      color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -64,23 +62,7 @@ const htmlContent = `<!DOCTYPE html>
       position: relative;
     }
 
-    /* Subtle Islamic Geometric Medallion in Background */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, transparent 40%, rgba(212, 175, 55, 0.025) 41%, transparent 42%),
-                  radial-gradient(circle, transparent 70%, rgba(212, 175, 55, 0.02) 71%, transparent 72%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Top Control Bar (Markazul Iman Emerald & Gold) */
+    /* Top Control Bar */
     .top-bar {
       background: linear-gradient(180deg, #02291b 0%, #011810 100%);
       color: #fff;
@@ -88,23 +70,11 @@ const htmlContent = `<!DOCTYPE html>
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 2px solid var(--gold-border);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      border-bottom: 1.5px solid var(--gold-primary);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
       z-index: 100;
       flex-wrap: wrap;
       gap: 12px;
-      position: relative;
-    }
-
-    .top-bar::after {
-      content: "";
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent 0%, #fef08a 50%, transparent 100%);
-      opacity: 0.6;
     }
 
     .org-brand {
@@ -115,20 +85,14 @@ const htmlContent = `<!DOCTYPE html>
       user-select: none;
     }
 
-    .org-logo-wrapper {
-      position: relative;
-      width: 44px;
-      height: 44px;
-    }
-
     .org-logo-mini {
-      width: 100%;
-      height: 100%;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       background: #fff;
       object-fit: contain;
       padding: 2px;
-      border: 2px solid var(--gold-border);
+      border: 2px solid var(--gold-primary);
       box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
     }
 
@@ -137,13 +101,12 @@ const htmlContent = `<!DOCTYPE html>
       font-weight: 700;
       color: #f3e5ab;
       line-height: 1.25;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
       letter-spacing: 0.3px;
     }
 
     .org-title-group p {
       font-size: 11px;
-      color: var(--text-light-green);
+      color: #a7f3d0;
       letter-spacing: 0.2px;
       opacity: 0.9;
     }
@@ -151,7 +114,7 @@ const htmlContent = `<!DOCTYPE html>
     .toolbar-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
@@ -165,54 +128,48 @@ const htmlContent = `<!DOCTYPE html>
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      transition: all 0.25s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.2s ease;
       text-decoration: none;
       color: #fff;
-      background: rgba(255, 255, 255, 0.12);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .btn:hover {
-      background: rgba(255, 255, 255, 0.22);
-      border-color: #fef08a;
-      color: #fef08a;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
       transform: translateY(-1px);
     }
 
-    /* Dedicated Special Kalima Button (Markazul Iman Radiant Gold) */
+    /* Dedicated Glowing Kalima Button */
     .btn-kalima-special {
-      background: linear-gradient(135deg, #ffd700 0%, #d4af37 50%, #a87910 100%);
+      background: var(--gold-gradient);
       color: #02291b !important;
       font-weight: 700;
-      border: 1.5px solid #fff2a8;
-      box-shadow: 0 0 14px rgba(212, 175, 55, 0.6), inset 0 1px 0 rgba(255,255,255,0.8);
-      position: relative;
+      border: 1px solid #fff2a8;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
       animation: goldPulse 2.8s infinite;
-      letter-spacing: 0.2px;
     }
 
     .btn-kalima-special:hover {
-      background: linear-gradient(135deg, #fff2a8 0%, #ffd700 50%, #b8860b 100%);
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 0 22px rgba(255, 215, 0, 0.85);
-      color: #02291b !important;
+      background: linear-gradient(135deg, #fff2a8 0%, #ffd700 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 0 18px rgba(255, 215, 0, 0.8);
     }
 
     @keyframes goldPulse {
-      0% { box-shadow: 0 0 8px rgba(212, 175, 55, 0.4); }
-      50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.85); }
-      100% { box-shadow: 0 0 8px rgba(212, 175, 55, 0.4); }
+      0% { box-shadow: 0 0 6px rgba(212, 175, 55, 0.4); }
+      50% { box-shadow: 0 0 16px rgba(255, 215, 0, 0.8); }
+      100% { box-shadow: 0 0 6px rgba(212, 175, 55, 0.4); }
     }
 
     .btn-gold {
-      background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-      border-color: #fef08a;
-      color: #02291b;
-      font-weight: 700;
+      background: rgba(212, 175, 55, 0.18);
+      border-color: var(--gold-primary);
+      color: #fef08a;
     }
     .btn-gold:hover {
-      background: linear-gradient(135deg, #fef08a 0%, #d4af37 100%);
+      background: var(--gold-primary);
       color: #02291b;
     }
 
@@ -224,7 +181,7 @@ const htmlContent = `<!DOCTYPE html>
       border-radius: 6px;
       padding: 3px 8px;
       gap: 6px;
-      border: 1px solid rgba(212, 175, 55, 0.4);
+      border: 1px solid rgba(212, 175, 55, 0.35);
     }
 
     .font-control-group label {
@@ -236,9 +193,9 @@ const htmlContent = `<!DOCTYPE html>
     .font-control-group select {
       background: #04432c;
       color: #fff;
-      border: 1px solid var(--gold-border);
+      border: 1px solid var(--gold-primary);
       border-radius: 4px;
-      padding: 3px 8px;
+      padding: 3px 6px;
       font-size: 12px;
       outline: none;
       cursor: pointer;
@@ -260,11 +217,11 @@ const htmlContent = `<!DOCTYPE html>
       transition: all 0.2s ease;
     }
     .size-btn:hover {
-      background: var(--gold-border);
+      background: var(--gold-primary);
       color: #02291b;
     }
 
-    /* Category Navigation Ribbon (Markazul Iman Emerald Bar) */
+    /* Category Navigation Ribbon */
     .category-bar {
       background: linear-gradient(180deg, #033221 0%, #022417 100%);
       padding: 8px 24px;
@@ -273,24 +230,19 @@ const htmlContent = `<!DOCTYPE html>
       gap: 10px;
       overflow-x: auto;
       white-space: nowrap;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
       scrollbar-width: thin;
       scrollbar-color: var(--primary-light) transparent;
       z-index: 10;
     }
 
-    .category-bar::-webkit-scrollbar {
-      height: 5px;
-    }
-    .category-bar::-webkit-scrollbar-thumb {
-      background: var(--primary-light);
-      border-radius: 4px;
-    }
+    .category-bar::-webkit-scrollbar { height: 4px; }
+    .category-bar::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
 
     .category-pill {
-      background: rgba(2, 41, 27, 0.65);
+      background: rgba(2, 41, 27, 0.7);
       color: #cbd5e1;
-      border: 1px solid rgba(212, 175, 55, 0.3);
+      border: 1px solid rgba(212, 175, 55, 0.25);
       padding: 5px 14px;
       border-radius: 20px;
       font-size: 12px;
@@ -303,7 +255,7 @@ const htmlContent = `<!DOCTYPE html>
     .category-pill:hover {
       background: rgba(6, 95, 62, 0.85);
       color: #fff;
-      border-color: var(--gold-border);
+      border-color: var(--gold-primary);
     }
 
     .category-pill.active {
@@ -319,19 +271,17 @@ const htmlContent = `<!DOCTYPE html>
       color: #fff;
       font-weight: 600;
       border-color: #fef08a;
-      box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
     }
     .category-pill.kalima-pill:hover {
       background: linear-gradient(135deg, #dfa528 0%, #a87910 100%);
       color: #fff;
-      border-color: #ffd700;
     }
     .category-pill.kalima-pill.active {
       background: linear-gradient(135deg, #ffd700 0%, #dfa528 100%);
       color: #02291b;
       font-weight: 700;
       border-color: #fff;
-      box-shadow: 0 0 14px rgba(255, 215, 0, 0.7);
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
     }
 
     /* Main Slide Stage */
@@ -345,170 +295,100 @@ const htmlContent = `<!DOCTYPE html>
       z-index: 5;
     }
 
-    /* MARKAZUL IMAN SLIDE CARD */
+    /* PREMIUM WIDESCREEN SLIDE CARD (Clean, Luxurious, Breathable) */
     .slide-card {
       width: 100%;
-      max-width: 1060px;
-      min-height: 580px;
-      border-radius: 14px;
+      max-width: 1080px;
+      min-height: 570px;
+      border-radius: 18px;
       display: flex;
       flex-direction: column;
       position: relative;
-      animation: fadeIn 0.3s ease;
-      
-      background-color: var(--bg-cream);
-      background-image: 
-        radial-gradient(ellipse at 50% 50%, #ffffff 0%, #fdfbf7 75%, #f7f2e7 100%);
-      box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.55),
-        0 4px 15px rgba(0, 0, 0, 0.3);
-      border: 2px solid var(--gold-border);
-      outline: 1.5px dashed rgba(198, 146, 20, 0.35);
-      outline-offset: -7px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 4px 15px rgba(0, 0, 0, 0.25);
       overflow: hidden;
-    }
-
-    /* Elegant Islamic Corner Ornaments */
-    .slide-card::before {
-      content: "❖";
-      position: absolute;
-      top: 10px;
-      left: 14px;
-      font-size: 16px;
-      color: #c69214;
-      opacity: 0.85;
-      z-index: 2;
-      pointer-events: none;
-    }
-    .slide-card::after {
-      content: "❖";
-      position: absolute;
-      top: 10px;
-      right: 14px;
-      font-size: 16px;
-      color: #c69214;
-      opacity: 0.85;
-      z-index: 2;
-      pointer-events: none;
+      animation: fadeIn 0.3s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Card Header (Deep Markazul Iman Emerald & Gold Ribbon) */
+    /* Clean Slide Header Inside Card */
     .slide-header {
-      background: linear-gradient(135deg, #02291b 0%, #04432c 60%, #065f3e 100%);
-      color: #fff;
-      padding: 14px 28px;
+      padding: 16px 32px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 2px solid var(--gold-border);
-      position: relative;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      background: linear-gradient(to bottom, rgba(4, 67, 44, 0.05), transparent);
     }
 
-    .slide-header::after {
-      content: "";
-      position: absolute;
-      bottom: -3px;
-      left: 0;
-      right: 0;
-      height: 1.5px;
-      background: linear-gradient(90deg, transparent, #fef08a, transparent);
-    }
-
-    .slide-badges {
+    .slide-header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
-    /* Gold Number Badge */
     .badge-number {
-      background: var(--gold-gradient);
-      color: #02291b;
+      background: linear-gradient(135deg, #04432c 0%, #065f3e 100%);
+      color: #fef08a;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 13.5px;
       padding: 5px 14px;
       border-radius: 20px;
-      border: 1px solid #fff2a8;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
+      border: 1px solid var(--gold-primary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
     }
 
     .badge-cat {
-      background: rgba(255, 255, 255, 0.15);
-      color: #a7f3d0;
+      background: #f0fdf4;
+      color: #065f3e;
       font-size: 12px;
       font-weight: 600;
       padding: 4px 12px;
       border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      border: 1px solid #bbf7d0;
     }
 
     .badge-page {
-      background: rgba(212, 175, 55, 0.2);
-      color: #fef08a;
-      font-size: 11px;
+      background: #fffbeb;
+      color: #92400e;
+      font-size: 11.5px;
       padding: 4px 10px;
       border-radius: 10px;
-      border: 1px solid rgba(212, 175, 55, 0.4);
+      border: 1px solid #fde68a;
+      font-weight: 600;
     }
 
     .slide-header-title {
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 700;
-      color: #fef08a;
+      color: #04432c;
       text-align: right;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-      letter-spacing: 0.3px;
+      letter-spacing: 0.2px;
     }
 
-    /* Card Body */
+    /* Slide Content Body (Spacious, Elegant, Centered Hierarchy) */
     .slide-body {
-      padding: 26px 32px;
+      padding: 28px 48px 24px;
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      overflow-y: auto;
-      position: relative;
-    }
-
-    /* Arabic Inscription Tablet */
-    .arabic-container {
-      background: #ffffff;
-      border: 2px solid #065f3e;
-      outline: 1px dashed rgba(6, 95, 62, 0.35);
-      outline-offset: -5px;
-      border-radius: 12px;
-      padding: 24px 28px;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      position: relative;
-      box-shadow: 
-        inset 0 0 20px rgba(4, 67, 44, 0.05),
-        0 6px 18px rgba(4, 67, 44, 0.08);
+      overflow-y: auto;
+      gap: 16px;
     }
 
-    .arabic-container::before {
-      content: "❖ ۞ ❖";
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #ffffff;
-      padding: 0 14px;
-      color: #c69214;
-      font-size: 14px;
-      font-weight: bold;
-      border-radius: 10px;
-      border: 1px solid rgba(198, 146, 20, 0.4);
+    /* Arabic Calligraphy Section */
+    .arabic-wrapper {
+      width: 100%;
+      margin-bottom: 4px;
     }
 
     .arabic-text {
@@ -519,141 +399,126 @@ const htmlContent = `<!DOCTYPE html>
       direction: rtl;
       word-spacing: 4px;
       text-rendering: optimizeLegibility;
-      font-weight: 600;
+      font-weight: 700;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.06);
     }
 
-    /* Pronunciation Box (Fresh Markaz Green) */
-    .pronunciation-box {
-      background: #f0fdf4;
-      border-left: 5px solid #10b981;
-      padding: 14px 20px;
-      border-radius: 0 10px 10px 0;
-      border-top: 1px solid rgba(16, 185, 129, 0.2);
-      border-bottom: 1px solid rgba(16, 185, 129, 0.2);
-      border-right: 1px solid rgba(16, 185, 129, 0.2);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    .arabic-divider {
+      color: var(--gold-primary);
+      font-size: 16px;
+      letter-spacing: 6px;
+      margin: 2px 0 8px;
+      opacity: 0.85;
     }
 
-    .pronunciation-box h4 {
-      font-size: 13px;
+    /* Clean Pronunciation Pill */
+    .pronunciation-pill {
+      font-size: 16px;
       color: #065f3e;
-      margin-bottom: 5px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 700;
-    }
-
-    .pronunciation-text {
-      font-size: 15.5px;
-      line-height: 1.65;
-      color: #1e293b;
-      white-space: pre-line;
       font-weight: 500;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 24px;
+      padding: 6px 22px;
+      max-width: 920px;
+      line-height: 1.6;
+      white-space: pre-line;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
     }
 
-    /* Bangla Meaning Box (Warm Amber Gold) */
-    .meaning-box {
-      background: #fffbeb;
-      border-left: 5px solid #f59e0b;
-      padding: 14px 20px;
-      border-radius: 0 10px 10px 0;
-      border-top: 1px solid rgba(245, 158, 11, 0.2);
-      border-bottom: 1px solid rgba(245, 158, 11, 0.2);
-      border-right: 1px solid rgba(245, 158, 11, 0.2);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    }
-
-    .meaning-box h4 {
-      font-size: 13px;
-      color: #92400e;
-      margin-bottom: 5px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 700;
+    /* Bold Bengali Meaning */
+    .meaning-container {
+      max-width: 920px;
+      width: 100%;
     }
 
     .meaning-text {
-      font-size: 15.5px;
+      font-size: 21px;
+      font-weight: 600;
+      color: #111827;
       line-height: 1.65;
-      color: #1f2937;
       white-space: pre-line;
-      font-weight: 500;
     }
 
-    /* Meta Boxes (Fazeelat / Rules) - ZERO BLUE! Pure Markazul Iman Green & Amber */
-    .meta-box-row {
+    /* Clean Fazeelat & Rule Cards (Zero Blue, Zero Clutter) */
+    .meta-cards-group {
+      width: 100%;
+      max-width: 920px;
       display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+      text-align: left;
     }
 
-    .fazeelat-box {
-      flex: 1;
-      min-width: 290px;
+    .meta-info-card {
       background: #f0fdf4;
-      border-left: 5px solid #059669;
-      padding: 12px 18px;
-      border-radius: 0 8px 8px 0;
-      border-top: 1px solid rgba(5, 150, 105, 0.2);
-      border-bottom: 1px solid rgba(5, 150, 105, 0.2);
-      border-right: 1px solid rgba(5, 150, 105, 0.2);
+      border-left: 4px solid #10b981;
+      border-radius: 8px;
+      padding: 10px 16px;
       font-size: 13.5px;
       color: #064e3b;
       line-height: 1.55;
+      border-top: 1px solid #dcfce7;
+      border-bottom: 1px solid #dcfce7;
+      border-right: 1px solid #dcfce7;
     }
 
-    .fazeelat-box strong {
+    .meta-info-card strong {
       color: #04432c;
       font-weight: 700;
     }
 
-    .rule-box {
-      flex: 1;
-      min-width: 290px;
+    .meta-rule-card {
       background: #fefce8;
-      border-left: 5px solid #ca8a04;
-      padding: 12px 18px;
-      border-radius: 0 8px 8px 0;
-      border-top: 1px solid rgba(202, 138, 4, 0.2);
-      border-bottom: 1px solid rgba(202, 138, 4, 0.2);
-      border-right: 1px solid rgba(202, 138, 4, 0.2);
+      border-left: 4px solid #ca8a04;
+      border-radius: 8px;
+      padding: 10px 16px;
       font-size: 13.5px;
       color: #713f12;
       line-height: 1.55;
+      border-top: 1px solid #fef9c3;
+      border-bottom: 1px solid #fef9c3;
+      border-right: 1px solid #fef9c3;
     }
 
-    .rule-box strong {
+    .meta-rule-card strong {
       color: #854d0e;
       font-weight: 700;
     }
 
-    /* Slide Footer / Hadith Provenance & Source */
-    .slide-footer-info {
-      padding: 10px 28px;
-      background: #f8fafc;
-      border-top: 1px solid #e2e8f0;
+    /* Slide Footer */
+    .slide-footer {
+      padding: 12px 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      background: #fafaf9;
       font-size: 12.5px;
       color: #4b5563;
       flex-wrap: wrap;
       gap: 10px;
     }
 
-    .source-label {
+    .source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ecfdf5;
+      color: #04432c;
+      padding: 4px 12px;
+      border-radius: 6px;
+      border: 1px solid #a7f3d0;
+      font-weight: 600;
+    }
+
+    .footer-brand-credit {
       font-weight: 700;
       color: #04432c;
     }
 
-    .source-text {
-      font-weight: 600;
-      color: #1f2937;
-    }
-
-    /* Navigation Arrows (Markazul Iman Emerald & Gold Dials) */
+    /* Floating Navigation Controls */
     .nav-arrow {
       position: absolute;
       top: 50%;
@@ -661,9 +526,9 @@ const htmlContent = `<!DOCTYPE html>
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #04432c 0%, #02291b 100%);
+      background: rgba(2, 41, 27, 0.9);
       color: #fef08a;
-      border: 2px solid var(--gold-border);
+      border: 2px solid var(--gold-primary);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -671,19 +536,18 @@ const htmlContent = `<!DOCTYPE html>
       cursor: pointer;
       transition: all 0.25s ease;
       z-index: 20;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
     .nav-arrow:hover {
-      background: linear-gradient(135deg, #065f3e 0%, #04432c 100%);
-      transform: translateY(-50%) scale(1.1);
+      background: #04432c;
+      transform: translateY(-50%) scale(1.08);
       color: #fff;
-      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
       border-color: #ffd700;
     }
     .nav-prev { left: 24px; }
     .nav-next { right: 24px; }
 
-    /* Bottom Control Bar (Markazul Iman Deep Emerald) */
+    /* Bottom Control Bar */
     .bottom-bar {
       background: linear-gradient(180deg, #02291b 0%, #011810 100%);
       padding: 10px 24px;
@@ -691,7 +555,7 @@ const htmlContent = `<!DOCTYPE html>
       align-items: center;
       justify-content: space-between;
       color: #fff;
-      border-top: 2px solid var(--gold-border);
+      border-top: 1.5px solid var(--gold-primary);
       box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
       flex-wrap: wrap;
       gap: 12px;
@@ -708,7 +572,7 @@ const htmlContent = `<!DOCTYPE html>
     .slide-select-dropdown {
       background: #04432c;
       color: #fef08a;
-      border: 1px solid var(--gold-border);
+      border: 1px solid var(--gold-primary);
       border-radius: 6px;
       padding: 6px 14px;
       font-family: 'Hind Siliguri', sans-serif;
@@ -728,7 +592,7 @@ const htmlContent = `<!DOCTYPE html>
       background: rgba(0, 0, 0, 0.4);
       padding: 4px 10px;
       border-radius: 12px;
-      border: 1px solid rgba(212, 175, 55, 0.4);
+      border: 1px solid rgba(212, 175, 55, 0.35);
     }
 
     /* Modal Grid (সূচিপত্র) */
@@ -752,8 +616,8 @@ const htmlContent = `<!DOCTYPE html>
       width: 100%;
       max-width: 960px;
       max-height: 85vh;
-      border-radius: 12px;
-      border: 2px solid var(--gold-border);
+      border-radius: 14px;
+      border: 2px solid var(--gold-primary);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -767,7 +631,7 @@ const htmlContent = `<!DOCTYPE html>
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 2px solid var(--gold-border);
+      border-bottom: 2px solid var(--gold-primary);
     }
 
     .modal-search {
@@ -784,7 +648,7 @@ const htmlContent = `<!DOCTYPE html>
       border-radius: 6px;
       border: 1.5px solid #cbd5e1;
       background: #fff;
-      color: var(--text-dark);
+      color: var(--text-main);
       font-family: 'Hind Siliguri', sans-serif;
       font-size: 14px;
       outline: none;
@@ -858,7 +722,7 @@ const htmlContent = `<!DOCTYPE html>
       right: 24px;
       background: #02291b;
       color: #fef08a;
-      border: 1.5px solid var(--gold-border);
+      border: 1.5px solid var(--gold-primary);
       padding: 12px 22px;
       border-radius: 8px;
       font-size: 13.5px;
@@ -882,9 +746,11 @@ const htmlContent = `<!DOCTYPE html>
       .org-title-group p { font-size: 10px; }
       .slide-card { min-height: 480px; }
       .slide-header { padding: 12px 16px; }
-      .slide-header-title { font-size: 16px; }
+      .slide-header-title { font-size: 15px; }
       .slide-body { padding: 18px 20px; }
       .arabic-text { font-size: 28px !important; }
+      .meaning-text { font-size: 18px !important; }
+      .pronunciation-pill { font-size: 14px !important; }
       .nav-arrow { display: none; }
       .bottom-bar { justify-content: center; }
       .slide-select-dropdown { max-width: 100%; width: 100%; }
@@ -893,12 +759,10 @@ const htmlContent = `<!DOCTYPE html>
 </head>
 <body>
 
-  <!-- Top Bar (Markazul Iman Emerald & Gold) -->
+  <!-- Top Bar -->
   <header class="top-bar">
     <div class="org-brand" onclick="filterByCategory('all')">
-      <div class="org-logo-wrapper">
-        <img src="${logoB64}" alt="মারকাযুল ঈমান" class="org-logo-mini">
-      </div>
+      <img src="${logoB64}" alt="মারকাযুল ঈমান" class="org-logo-mini">
       <div class="org-title-group">
         <h1>নূরানী মাসনূন দু'আ ও কালিমাহ্</h1>
         <p>মারকাযুল ঈমান - দাওয়াহ্ বিভাগ | নূরানী পদ্ধতিতে কুরআন শিক্ষা অনুযায়ী</p>
@@ -906,17 +770,17 @@ const htmlContent = `<!DOCTYPE html>
     </div>
 
     <div class="toolbar-actions">
-      <!-- Dedicated Special Kalima Button (Markazul Iman Radiant Gold) -->
+      <!-- Dedicated Special Kalima Button -->
       <button class="btn btn-kalima-special" id="topKalimaBtn" onclick="switchToKalima()" title="কিতাবের ৬টি মৌলিক কালিমাহ্ দেখুন">
         <span>📜 কালিমাহ্ (মৌলিক ঈমান)</span>
       </button>
 
       <button class="btn btn-gold" onclick="openGridModal()">
-        <span>🧭 সূচিপত্র</span>
+        <span>📑 সূচিপত্র</span>
       </button>
 
       <button class="btn" onclick="exportToPPTX()">
-        <span>📊 PPTX স্লাইড</span>
+        <span>📊 PPTX ডাউনলোড</span>
       </button>
 
       <button class="btn" onclick="copyCurrentSlideText()" title="আরবী ও অর্থ কপি করুন">
@@ -952,66 +816,64 @@ const htmlContent = `<!DOCTYPE html>
     <button class="category-pill" onclick="filterByCategory('বিপদ ও রোগমুক্তি')">বিপদ ও রোগমুক্তি</button>
     <button class="category-pill" onclick="filterByCategory('প্রাকৃতিক দুর্যোগ ও আবহাওয়া')">প্রাকৃতিক দুর্যোগ</button>
     <button class="category-pill" onclick="filterByCategory('বিশেষ মুহূর্ত')">বিশেষ মুহূর্ত</button>
-    <!-- Dedicated Kalima Pill (Golden Treasure Pill) -->
+    <!-- Dedicated Kalima Pill -->
     <button class="category-pill kalima-pill" id="catKalimaPill" onclick="filterByCategory('কালেমা')">📜 কালিমাহ্ (মৌলিক ঈমান)</button>
   </nav>
 
-  <!-- Slide Canvas -->
+  <!-- Main Slide Stage -->
   <main class="slide-stage" id="slideStage">
     <button class="nav-arrow nav-prev" onclick="navigateSlide(-1)" title="পূর্ববর্তী স্লাইড (বাম তীর / Left Arrow)">❮</button>
 
-    <!-- MARKAZUL IMAN SLIDE CARD -->
+    <!-- PREMIUM SLIDE CARD -->
     <div class="slide-card" id="slideCard">
-      <!-- Header Banner -->
+      <!-- Card Header -->
       <div class="slide-header">
-        <div class="slide-badges">
+        <div class="slide-header-left">
           <span class="badge-number" id="cardBadgeNum">মাসনূন দু'আ</span>
           <span class="badge-cat" id="cardBadgeCat">ক্যাটাগরি</span>
-          <span class="badge-page" id="cardBadgePage">কিতাবের পৃষ্ঠা</span>
+          <span class="badge-page" id="cardBadgePage">পৃষ্ঠা</span>
         </div>
         <div class="slide-header-title" id="cardTitle">শিরোনাম</div>
       </div>
 
-      <!-- Body -->
+      <!-- Slide Body (Spacious & Clean) -->
       <div class="slide-body">
-        <!-- Arabic Inscription Tablet -->
-        <div class="arabic-container">
+        <!-- Arabic Calligraphy -->
+        <div class="arabic-wrapper">
           <div class="arabic-text" id="cardArabic">اَللّٰهُمَّ</div>
         </div>
 
-        <!-- Pronunciation (Fresh Markaz Green) -->
-        <div class="pronunciation-box" id="cardPronunciationBox">
-          <h4>🗣️ বাংলা উচ্চারণ:</h4>
-          <div class="pronunciation-text" id="cardPronunciation"></div>
-        </div>
+        <div class="arabic-divider">❖ ۞ ❖</div>
 
-        <!-- Meaning (Warm Amber Gold) -->
-        <div class="meaning-box" id="cardMeaningBox">
-          <h4>📖 বাংলা অর্থ:</h4>
+        <!-- Clean Pronunciation Pill -->
+        <div class="pronunciation-pill" id="cardPronunciation"></div>
+
+        <!-- Bold Meaning -->
+        <div class="meaning-container">
           <div class="meaning-text" id="cardMeaning"></div>
         </div>
 
-        <!-- Meta Row (Fazeelat / Rules - ZERO BLUE!) -->
-        <div class="meta-box-row" id="cardMetaRow">
-          <div class="fazeelat-box" id="cardFazeelatBox" style="display:none;">
-            <strong>✨ ফযীলত ও তা'লীম:</strong>
-            <div id="cardFazeelat" style="margin-top: 4px;"></div>
+        <!-- Meta Info Cards (Only when available) -->
+        <div class="meta-cards-group" id="cardMetaGroup">
+          <div class="meta-info-card" id="cardFazeelatBox" style="display:none;">
+            <strong>✨ ফযীলত ও তা'লীম:</strong> <span id="cardFazeelat"></span>
           </div>
-          <div class="rule-box" id="cardRuleBox" style="display:none;">
-            <strong>📌 আমলের নিয়ম:</strong>
-            <div id="cardRule" style="margin-top: 4px;"></div>
+          <div class="meta-rule-card" id="cardRuleBox" style="display:none;">
+            <strong>📌 আমলের নিয়ম:</strong> <span id="cardRule"></span>
           </div>
         </div>
       </div>
 
-      <!-- Footer / Provenance & Hadith Legend -->
-      <div class="slide-footer-info">
+      <!-- Slide Footer -->
+      <div class="slide-footer">
         <div>
-          <span class="source-label">📚 কিতাবের উৎস ও হাদীস সনদ: </span>
-          <span class="source-text" id="cardSource">নূরানী পদ্ধতিতে কুরআন শিক্ষা</span>
+          <span class="source-badge">
+            <span>📚 উৎস ও সনদ:</span>
+            <span id="cardSource" style="font-weight: 500;">নূরানী পদ্ধতিতে কুরআন শিক্ষা</span>
+          </span>
         </div>
         <div>
-          <span style="font-weight: 700; color: #c69214;">মারকাযুল ঈমান দাওয়াহ্ বিভাগ</span>
+          <span class="footer-brand-credit">মারকাযুল ঈমান দাওয়াহ্ বিভাগ</span>
         </div>
       </div>
     </div>
@@ -1031,7 +893,7 @@ const htmlContent = `<!DOCTYPE html>
       <select id="slideSelect" class="slide-select-dropdown" onchange="jumpToFilteredIndex(parseInt(this.value))">
         <!-- Populated dynamically -->
       </select>
-      <span id="slideStatus" class="slide-counter-badge">১ / ৬৮</span>
+      <span id="slideStatus" class="slide-counter-badge">১ / ৬৭</span>
     </div>
   </footer>
 
@@ -1039,7 +901,7 @@ const htmlContent = `<!DOCTYPE html>
   <div class="modal-overlay" id="gridModal" onclick="closeGridModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
       <div class="modal-header">
-        <h2 style="font-size: 17px; color: #fef08a;">🧭 সূচিপত্র (মাসনূন দু'আ ও কালিমাহ্ নির্দেশিকা)</h2>
+        <h2 style="font-size: 17px; color: #fef08a;">📑 সূচিপত্র (মাসনূন দু'আ ও কালিমাহ্ নির্দেশিকা)</h2>
         <button onclick="closeGridModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #cbd5e1;">✕</button>
       </div>
       <div class="modal-search">
@@ -1062,7 +924,7 @@ const htmlContent = `<!DOCTYPE html>
     let filteredItems = [...DUAS_AND_KALIMAS];
     let currentIndex = 0;
     let currentArabicFont = localStorage.getItem('noorani_dua_arabic_font') || "'Scheherazade New', serif";
-    let currentArabicSize = parseInt(localStorage.getItem('noorani_dua_arabic_size')) || 38;
+    let currentArabicSize = parseInt(localStorage.getItem('noorani_dua_arabic_size')) || 40;
 
     // Initialize UI
     window.addEventListener('DOMContentLoaded', () => {
@@ -1098,9 +960,9 @@ const htmlContent = `<!DOCTYPE html>
       stage.addEventListener('touchend', (e) => {
         touchEndX = e.changedTouches[0].screenX;
         if (touchStartX - touchEndX > 50) {
-          navigateSlide(1); // Swipe left -> next
+          navigateSlide(1);
         } else if (touchEndX - touchStartX > 50) {
-          navigateSlide(-1); // Swipe right -> prev
+          navigateSlide(-1);
         }
       }, { passive: true });
     });
@@ -1145,7 +1007,6 @@ const htmlContent = `<!DOCTYPE html>
         opt.value = idx;
         let prefix = '';
         if (item.type === 'kalima') prefix = 'কালিমাহ্ ' + item.no + ': ';
-        else if (item.type === 'salam') prefix = 'সালাম: ';
         else prefix = item.no ? item.no + '. ' : '';
         opt.textContent = prefix + item.title;
         select.appendChild(opt);
@@ -1163,14 +1024,10 @@ const htmlContent = `<!DOCTYPE html>
         badgeNum.textContent = 'কালিমাহ্ ' + item.no;
         badgeNum.style.background = 'linear-gradient(135deg, #ffd700 0%, #b8860b 100%)';
         badgeNum.style.color = '#02291b';
-      } else if (item.type === 'salam') {
-        badgeNum.textContent = 'সালাম ও মুসাফাহা';
-        badgeNum.style.background = 'var(--gold-gradient)';
-        badgeNum.style.color = '#02291b';
       } else {
         badgeNum.textContent = "মাসনূন দু'আ " + item.no;
-        badgeNum.style.background = 'var(--gold-gradient)';
-        badgeNum.style.color = '#02291b';
+        badgeNum.style.background = 'linear-gradient(135deg, #04432c 0%, #065f3e 100%)';
+        badgeNum.style.color = '#fef08a';
       }
 
       document.getElementById('cardBadgeCat').textContent = item.category;
@@ -1183,10 +1040,10 @@ const htmlContent = `<!DOCTYPE html>
       document.getElementById('cardMeaning').textContent = item.bangla;
       document.getElementById('cardSource').textContent = item.source;
 
-      // Meta boxes (Fazeelat / Rules)
+      // Meta Info Cards (Fazeelat / Rules)
       const fazeelatBox = document.getElementById('cardFazeelatBox');
       const ruleBox = document.getElementById('cardRuleBox');
-      const metaRow = document.getElementById('cardMetaRow');
+      const metaGroup = document.getElementById('cardMetaGroup');
 
       if (item.fazeelat) {
         document.getElementById('cardFazeelat').textContent = item.fazeelat;
@@ -1203,9 +1060,9 @@ const htmlContent = `<!DOCTYPE html>
       }
 
       if (!item.fazeelat && !item.rule) {
-        metaRow.style.display = 'none';
+        metaGroup.style.display = 'none';
       } else {
-        metaRow.style.display = 'flex';
+        metaGroup.style.display = 'flex';
       }
 
       // Update footer controls
@@ -1320,7 +1177,6 @@ const htmlContent = `<!DOCTYPE html>
 
         let noStr = '';
         if (item.type === 'kalima') noStr = 'কালিমাহ্ ' + item.no;
-        else if (item.type === 'salam') noStr = 'সালাম ও মুসাফাহা';
         else noStr = "মাসনূন দু'আ " + item.no;
 
         div.innerHTML = \`
@@ -1398,7 +1254,6 @@ const htmlContent = `<!DOCTYPE html>
 
           let badgeText = '';
           if (item.type === 'kalima') badgeText = 'কালিমাহ্ ' + item.no;
-          else if (item.type === 'salam') badgeText = 'সালাম ও মুসাফাহা';
           else badgeText = "দু'আ " + item.no;
 
           slide.addText(badgeText + ' : ' + item.title + ' (পৃ. ' + item.page + ')', {
@@ -1464,4 +1319,4 @@ const htmlContent = `<!DOCTYPE html>
 `;
 
 fs.writeFileSync(path.join(__dirname, 'index.html'), htmlContent, 'utf-8');
-console.log('Successfully generated index.html with Markazul Iman official Emerald & Gold theme (ZERO BLUE).');
+console.log('Successfully generated clean, premium, spacious index.html.');
