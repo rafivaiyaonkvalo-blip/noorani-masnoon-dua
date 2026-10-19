@@ -1,0 +1,12 @@
+node_modules
+pages
+pptx_extracted
+*.pdf
+*.pptx
+*.log
+logo_b64.txt
+build_data.js
+generate_html.js
+generate_printable.js
+.git
+.vercel

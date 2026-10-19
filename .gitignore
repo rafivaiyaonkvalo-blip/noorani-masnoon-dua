@@ -1,0 +1,8 @@
+node_modules/
+pages/
+pptx_extracted/
+*.pdf
+*.pptx
+.vercel
+
+.vercel
