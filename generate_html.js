@@ -218,7 +218,12 @@ const htmlContent = `<!DOCTYPE html>
       color: #02291b;
     }
 
-    /* Print Media Styles */
+    /* Print Media Styles (Landscape Slide Ready) */
+    @page {
+      size: A4 landscape;
+      margin: 8mm 10mm;
+    }
+
     @media print {
       .top-bar, .bottom-bar, .nav-arrow, .toast, .modal-overlay {
         display: none !important;
@@ -226,15 +231,26 @@ const htmlContent = `<!DOCTYPE html>
       body {
         background: #fff !important;
         padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .slide-stage {
         padding: 0 !important;
+        width: 100% !important;
+        height: 100vh !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
       }
       .slide-card {
         box-shadow: none !important;
         border: 2px solid var(--primary) !important;
         max-width: 100% !important;
         width: 100% !important;
+        height: 188mm !important;
+        min-height: 188mm !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
     }
 
@@ -726,8 +742,8 @@ const htmlContent = `<!DOCTYPE html>
         <span>📑 সূচিপত্র</span>
       </button>
 
-      <button class="btn btn-gold" onclick="downloadPDF()" title="সম্পূর্ণ দু'আ ও কালিমাহ্ বই PDF হিসেবে ডাউনলোড / প্রিন্ট করুন">
-        <span>📄 PDF ডাউনলোড</span>
+      <button class="btn btn-gold" onclick="openPdfModal()" title="স্লাইড ল্যান্ডস্কেপ PDF বা পোর্ট্রেট বুকলেট ডাউনলোড / প্রিন্ট করুন">
+        <span>📄 PDF ও প্রিন্ট</span>
       </button>
 
       <button class="btn" onclick="copyCurrentSlideText()" title="আরবী ও অর্থ কপি করুন">
@@ -840,6 +856,55 @@ const htmlContent = `<!DOCTYPE html>
       </div>
       <div class="modal-grid" id="modalGridContainer">
         <!-- Populated via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal PDF Options (ল্যান্ডস্কেপ স্লাইড ও বুকলেট ডাউনলোড) -->
+  <div class="modal-overlay" id="pdfModal" onclick="closePdfModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 650px;">
+      <div class="modal-header">
+        <h2 style="font-size: 17px; color: #fef08a;">📄 PDF ও প্রিন্ট অপশন নির্বাচন করুন</h2>
+        <button onclick="closePdfModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #cbd5e1;">✕</button>
+      </div>
+      <div style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+        
+        <!-- Option 1: Landscape Slides (Recommended) -->
+        <div style="background: #f0fdf4; border: 2px solid #04432c; border-radius: 12px; padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; gap: 14px; box-shadow: 0 4px 12px rgba(4, 67, 44, 0.08);">
+          <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <span style="font-size: 16.5px; font-weight: 700; color: #02291b;">🖥️ ল্যান্ডস্কেপ স্লাইড PDF (Landscape)</span>
+              <span style="background: #d4af37; color: #02291b; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 10px;">প্রস্তাবিত</span>
+            </div>
+            <p style="font-size: 13.5px; color: #064e3b; line-height: 1.5;">প্রতিটি পাতায় ১টি করে পূর্ণাঙ্গ বড় স্লাইড (প্রজেক্টর, ক্লাস প্রেজেন্টেশন ও ডিজিটাল স্ক্রিনে পড়ার জন্য সেরা)।</p>
+          </div>
+          <button class="btn btn-kalima-special" style="white-space: nowrap; padding: 10px 18px; font-size: 14px;" onclick="openPrintable('landscape')">
+            ডাউনলোড ❯
+          </button>
+        </div>
+
+        <!-- Option 2: Portrait Book -->
+        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; gap: 14px;">
+          <div style="flex: 1;">
+            <div style="font-size: 15.5px; font-weight: 700; color: #1e293b; margin-bottom: 6px;">📖 পোর্ট্রেট বুকলেট PDF (Portrait Book)</div>
+            <p style="font-size: 13.5px; color: #475569; line-height: 1.5;">বই আকারে পরপর সব দু'আ একসাথে সাধারণ কাগজে কম্প্যাক্ট প্রিন্ট করার জন্য।</p>
+          </div>
+          <button class="btn" style="white-space: nowrap; padding: 10px 18px; background: #04432c; color: #fff; border: 1px solid var(--gold-primary); font-size: 14px;" onclick="openPrintable('portrait')">
+            ডাউনলোড ❯
+          </button>
+        </div>
+
+        <!-- Option 3: Current Slide -->
+        <div style="background: #fffdf5; border: 1.5px solid #fef08a; border-radius: 12px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; gap: 14px;">
+          <div style="flex: 1;">
+            <div style="font-size: 15px; font-weight: 700; color: #78350f; margin-bottom: 4px;">🖨️ শুধুমাত্র বর্তমান স্লাইড প্রিন্ট</div>
+            <p style="font-size: 13px; color: #854d0e;">এখন স্ক্রিনে যে স্লাইডটি প্রদর্শিত হচ্ছে তা সরাসরি ল্যান্ডস্কেপে প্রিন্ট করুন।</p>
+          </div>
+          <button class="btn" style="white-space: nowrap; padding: 9px 18px; background: #ca8a04; color: #fff; font-size: 13.5px;" onclick="printCurrentSlide()">
+            প্রিন্ট ❯
+          </button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -1158,10 +1223,31 @@ const htmlContent = `<!DOCTYPE html>
       }, 2500);
     }
 
-    // PDF Download & Print Version
+    // PDF Modal Controls & Print Options
+    function openPdfModal() {
+      document.getElementById('pdfModal').style.display = 'flex';
+    }
+
+    function closePdfModal(e) {
+      if (!e || e.target.id === 'pdfModal' || e.target.tagName === 'BUTTON') {
+        document.getElementById('pdfModal').style.display = 'none';
+      }
+    }
+
+    function openPrintable(orient) {
+      closePdfModal();
+      showToast("📄 " + (orient === 'landscape' ? "ল্যান্ডস্কেপ স্লাইড" : "পোর্ট্রেট বুক") + " PDF সংস্করণ প্রস্তুত হচ্ছে...");
+      window.open('slides_printable.html?orientation=' + orient + '&print=true', '_blank');
+    }
+
+    function printCurrentSlide() {
+      closePdfModal();
+      window.print();
+    }
+
+    // Fallback for direct downloadPDF call
     function downloadPDF() {
-      showToast("📄 সম্পূর্ণ দু'আ ও কালিমাহ্ বই PDF/প্রিন্ট সংস্করণ খোলা হচ্ছে...");
-      window.open('slides_printable.html?print=true', '_blank');
+      openPdfModal();
     }
   </script>
 </body>
