@@ -16,9 +16,6 @@ const htmlContent = `<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Harmattan:wght@400;700&family=Hind+Siliguri:wght@400;500;600;700&family=Lateef:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Scheherazade+New:wght@400;600;700&display=swap" rel="stylesheet">
   
-  <!-- PPTXGenJS for 1-click PowerPoint export -->
-  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
-
   <style>
     :root {
       /* Official Markazul Iman Signature Palette */
@@ -221,67 +218,24 @@ const htmlContent = `<!DOCTYPE html>
       color: #02291b;
     }
 
-    /* Category Navigation Ribbon */
-    .category-bar {
-      background: linear-gradient(180deg, #033221 0%, #022417 100%);
-      padding: 8px 24px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      overflow-x: auto;
-      white-space: nowrap;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-      scrollbar-width: thin;
-      scrollbar-color: var(--primary-light) transparent;
-      z-index: 10;
-    }
-
-    .category-bar::-webkit-scrollbar { height: 4px; }
-    .category-bar::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
-
-    .category-pill {
-      background: rgba(2, 41, 27, 0.7);
-      color: #cbd5e1;
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      user-select: none;
-    }
-
-    .category-pill:hover {
-      background: rgba(6, 95, 62, 0.85);
-      color: #fff;
-      border-color: var(--gold-primary);
-    }
-
-    .category-pill.active {
-      background: var(--gold-gradient);
-      color: #02291b;
-      font-weight: 700;
-      border-color: #fff2a8;
-      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
-    }
-
-    .category-pill.kalima-pill {
-      background: linear-gradient(135deg, #c69214 0%, #8b6508 100%);
-      color: #fff;
-      font-weight: 600;
-      border-color: #fef08a;
-    }
-    .category-pill.kalima-pill:hover {
-      background: linear-gradient(135deg, #dfa528 0%, #a87910 100%);
-      color: #fff;
-    }
-    .category-pill.kalima-pill.active {
-      background: linear-gradient(135deg, #ffd700 0%, #dfa528 100%);
-      color: #02291b;
-      font-weight: 700;
-      border-color: #fff;
-      box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+    /* Print Media Styles */
+    @media print {
+      .top-bar, .bottom-bar, .nav-arrow, .toast, .modal-overlay {
+        display: none !important;
+      }
+      body {
+        background: #fff !important;
+        padding: 0 !important;
+      }
+      .slide-stage {
+        padding: 0 !important;
+      }
+      .slide-card {
+        box-shadow: none !important;
+        border: 2px solid var(--primary) !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
     }
 
     /* Main Slide Stage */
@@ -754,7 +708,7 @@ const htmlContent = `<!DOCTYPE html>
 
   <!-- Top Bar -->
   <header class="top-bar">
-    <div class="org-brand" onclick="filterByCategory('all')">
+    <div class="org-brand" onclick="resetToFirst()" title="প্রথম স্লাইডে ফিরে যান">
       <img src="${logoB64}" alt="মারকাযুল ঈমান" class="org-logo-mini">
       <div class="org-title-group">
         <h1>নূরানী মাসনূন দু'আ ও কালিমাহ্</h1>
@@ -772,8 +726,8 @@ const htmlContent = `<!DOCTYPE html>
         <span>📑 সূচিপত্র</span>
       </button>
 
-      <button class="btn" onclick="exportToPPTX()">
-        <span>📊 PPTX ডাউনলোড</span>
+      <button class="btn btn-gold" onclick="downloadPDF()" title="সম্পূর্ণ দু'আ ও কালিমাহ্ বই PDF হিসেবে ডাউনলোড / প্রিন্ট করুন">
+        <span>📄 PDF ডাউনলোড</span>
       </button>
 
       <button class="btn" onclick="copyCurrentSlideText()" title="আরবী ও অর্থ কপি করুন">
@@ -798,20 +752,6 @@ const htmlContent = `<!DOCTYPE html>
       </button>
     </div>
   </header>
-
-  <!-- Category Navigation Ribbon -->
-  <nav class="category-bar" id="categoryBar">
-    <button class="category-pill active" onclick="filterByCategory('all')">সবগুলো</button>
-    <button class="category-pill" onclick="filterByCategory('দৈনন্দিন আমল')">দৈনন্দিন আমল</button>
-    <button class="category-pill" onclick="filterByCategory('নামায ও ওযু')">নামায ও ওযু</button>
-    <button class="category-pill" onclick="filterByCategory('পবিত্রতা ও গৃহ')">পবিত্রতা ও গৃহ</button>
-    <button class="category-pill" onclick="filterByCategory('সফর ও বাহন')">সফর ও বাহন</button>
-    <button class="category-pill" onclick="filterByCategory('বিপদ ও রোগমুক্তি')">বিপদ ও রোগমুক্তি</button>
-    <button class="category-pill" onclick="filterByCategory('প্রাকৃতিক দুর্যোগ ও আবহাওয়া')">প্রাকৃতিক দুর্যোগ</button>
-    <button class="category-pill" onclick="filterByCategory('বিশেষ মুহূর্ত')">বিশেষ মুহূর্ত</button>
-    <!-- Dedicated Kalima Pill -->
-    <button class="category-pill kalima-pill" id="catKalimaPill" onclick="filterByCategory('কালেমা')">📜 কালিমাহ্ (মৌলিক ঈমান)</button>
-  </nav>
 
   <!-- Main Slide Stage -->
   <main class="slide-stage" id="slideStage">
@@ -960,8 +900,20 @@ const htmlContent = `<!DOCTYPE html>
 
     // Dedicated Switch to Kalima function
     function switchToKalima() {
-      filterByCategory('কালেমা');
-      showToast("📜 কিতাবের ৬টি মৌলিক কালিমাহ্ সেকশনে যাওয়া হয়েছে");
+      filterByCategory('all');
+      const idx = DUAS_AND_KALIMAS.findIndex(item => item.type === 'kalima');
+      if (idx !== -1) {
+        currentIndex = idx;
+        renderSlide();
+        showToast("📜 কিতাবের ৬টি মৌলিক কালিমাহ্ সেকশনে যাওয়া হয়েছে");
+      }
+    }
+
+    // Reset to First Slide
+    function resetToFirst() {
+      filterByCategory('all');
+      currentIndex = 0;
+      renderSlide();
     }
 
     // Filter by Category
@@ -1206,103 +1158,10 @@ const htmlContent = `<!DOCTYPE html>
       }, 2500);
     }
 
-    // 1-Click PPTX Export
-    function exportToPPTX() {
-      showToast('পাওয়ারপয়েন্ট (PPTX) স্লাইড প্রস্তুত হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...');
-      try {
-        const pptx = new PptxGenJS();
-        pptx.layout = 'LAYOUT_16x9';
-        pptx.author = 'মারকাযুল ঈমান দাওয়াহ বিভাগ';
-        pptx.company = 'মারকাযুল ঈমান';
-        pptx.title = "নূরানী মাসনূন দু'আ ও কালিমাহ্";
-
-        // Title Slide
-        const titleSlide = pptx.addSlide();
-        titleSlide.background = { color: '02291B' };
-        titleSlide.addText("নূরানী মাসনূন দু'আ ও কালিমাহ্", {
-          x: 0.8, y: 1.8, w: '85%', h: 1.2,
-          fontSize: 38, bold: true, color: 'F3E5AB', fontFace: 'Arial', align: 'center'
-        });
-        titleSlide.addText("আল্লামা কারী বেলায়েত হুসাইন (রহ.)-এর মূল 'নূরানী পদ্ধতিতে কুরআন শিক্ষা' কিতাব অনুযায়ী", {
-          x: 0.8, y: 3.2, w: '85%', h: 0.8,
-          fontSize: 18, color: 'A7F3D0', fontFace: 'Arial', align: 'center'
-        });
-        titleSlide.addText("মারকাযুল ঈমান - দাওয়াহ্ বিভাগ", {
-          x: 0.8, y: 4.8, w: '85%', h: 0.6,
-          fontSize: 16, color: 'D4AF37', fontFace: 'Arial', align: 'center', bold: true
-        });
-
-        // Add Each Item
-        DUAS_AND_KALIMAS.forEach((item, i) => {
-          const slide = pptx.addSlide();
-          slide.background = { color: 'FDFBF7' };
-
-          // Top Header Banner
-          slide.addShape(pptx.ShapeType.rect, {
-            x: 0, y: 0, w: '100%', h: 0.85,
-            fill: { color: '04432C' }
-          });
-
-          let badgeText = '';
-          if (item.type === 'kalima') badgeText = 'কালিমাহ্ ' + item.no;
-          else badgeText = "দু'আ " + item.no;
-
-          slide.addText(badgeText + ' : ' + item.title + ' (পৃ. ' + item.page + ')', {
-            x: 0.6, y: 0.15, w: '90%', h: 0.55,
-            fontSize: 18, bold: true, color: 'F3E5AB', fontFace: 'Arial'
-          });
-
-          // Arabic Box
-          slide.addShape(pptx.ShapeType.roundRect, {
-            x: 0.6, y: 1.1, w: 12.1, h: 1.6,
-            fill: { color: 'FFFFFF' }, line: { color: '065F3E', width: 2 }
-          });
-          slide.addText(item.arabic, {
-            x: 0.8, y: 1.2, w: 11.7, h: 1.4,
-            fontSize: 24, color: '02291B', bold: true, align: 'center', rtl: true
-          });
-
-          // Pronunciation
-          slide.addText("উচ্চারণ: " + item.pronunciation, {
-            x: 0.6, y: 2.9, w: 12.1, h: 0.8,
-            fontSize: 13, color: '1E293B', fontFace: 'Arial', fill: { color: 'F0FDF4' }
-          });
-
-          // Meaning
-          slide.addText("অর্থ: " + item.bangla, {
-            x: 0.6, y: 3.85, w: 12.1, h: 1.2,
-            fontSize: 13, color: '1F2937', fontFace: 'Arial', fill: { color: 'FFFBEB' }
-          });
-
-          // Extra (Fazeelat/Rule) if available
-          let extra = '';
-          if (item.fazeelat) extra += 'ফযীলত: ' + item.fazeelat + ' ';
-          if (item.rule) extra += 'আমলের নিয়ম: ' + item.rule;
-          if (extra) {
-            slide.addText(extra, {
-              x: 0.6, y: 5.2, w: 12.1, h: 0.9,
-              fontSize: 11, color: '064E3B', fontFace: 'Arial', fill: { color: 'F0FDF4' }
-            });
-          }
-
-          // Footer
-          slide.addText("উৎস: " + item.source + " | মারকাযুল ঈমান দাওয়াহ্ বিভাগ", {
-            x: 0.6, y: 6.8, w: 12.1, h: 0.4,
-            fontSize: 10, color: '6B7280', fontFace: 'Arial'
-          });
-        });
-
-        pptx.writeFile({ fileName: "Noorani_Masnoon_Dua_and_Kalima_Markazul_Iman.pptx" })
-          .then(() => {
-            showToast('✅ পাওয়ারপয়েন্ট স্লাইড ফাইল সফলভাবে ডাউনলোড হয়েছে!');
-          })
-          .catch(err => {
-            showToast('ডাউনলোডে ত্রুটি: ' + err.message);
-          });
-
-      } catch (err) {
-        showToast('ত্রুটি: ' + err.message);
-      }
+    // PDF Download & Print Version
+    function downloadPDF() {
+      showToast("📄 সম্পূর্ণ দু'আ ও কালিমাহ্ বই PDF/প্রিন্ট সংস্করণ খোলা হচ্ছে...");
+      window.open('slides_printable.html?print=true', '_blank');
     }
   </script>
 </body>
